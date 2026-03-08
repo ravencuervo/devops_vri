@@ -1,0 +1,31 @@
+{
+    "kind": "collectionType",
+    "collectionName": "docentes_renacyt",
+    "info": {
+        "singularName": "docente-renacyt",
+        "pluralName": "docentes-renacyt",
+        "displayName": "Docente Renacyt",
+        "description": "Docentes registrados en RENACYT (CONCYTEC)"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "attributes": {
+        "nombre": {
+            "type": "string",
+            "required": true
+        },
+        "nivel": {
+            "type": "string"
+        },
+        "estado": {
+            "type": "string"
+        },
+        "facultad": {
+            "type": "string"
+        },
+        "escuela": {
+            "type": "string"
+        }
+    }
+}

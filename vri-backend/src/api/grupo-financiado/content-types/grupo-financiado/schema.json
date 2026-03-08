@@ -1,0 +1,33 @@
+{
+    "kind": "collectionType",
+    "collectionName": "grupos_financiados",
+    "info": {
+        "singularName": "grupo-financiado",
+        "pluralName": "grupos-financiados",
+        "displayName": "Grupo Financiado",
+        "description": "Proyectos de investigación con financiamiento"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "attributes": {
+        "nombre": {
+            "type": "string",
+            "required": true
+        },
+        "anio": {
+            "type": "string",
+            "required": true,
+            "default": "2025"
+        },
+        "escuela": {
+            "type": "string"
+        },
+        "responsable": {
+            "type": "string"
+        },
+        "monto": {
+            "type": "decimal"
+        }
+    }
+}

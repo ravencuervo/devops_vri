@@ -1,0 +1,36 @@
+{
+    "kind": "collectionType",
+    "collectionName": "semilleros_reconocidos",
+    "info": {
+        "singularName": "semillero-reconocido",
+        "pluralName": "semilleros-reconocidos",
+        "displayName": "Semillero Reconocido",
+        "description": "Semilleros de investigación reconocidos institucionalmente"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "attributes": {
+        "nombre": {
+            "type": "string",
+            "required": true
+        },
+        "anio": {
+            "type": "string",
+            "required": true,
+            "default": "2025"
+        },
+        "facultad": {
+            "type": "string"
+        },
+        "escuela": {
+            "type": "string"
+        },
+        "linea": {
+            "type": "string"
+        },
+        "investigadores": {
+            "type": "text"
+        }
+    }
+}

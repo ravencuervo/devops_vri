@@ -1,0 +1,22 @@
+{
+    "collectionName": "components_compartido_documentos",
+    "info": {
+        "displayName": "Documento con Titulo",
+        "icon": "file-pdf"
+    },
+    "options": {},
+    "attributes": {
+        "nombre": {
+            "type": "string",
+            "required": true
+        },
+        "archivo": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "files"
+            ],
+            "required": true
+        }
+    }
+}

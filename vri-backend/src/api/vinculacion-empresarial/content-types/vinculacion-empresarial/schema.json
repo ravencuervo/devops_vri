@@ -1,0 +1,31 @@
+{
+    "kind": "collectionType",
+    "collectionName": "vinculaciones_empresariales",
+    "info": {
+        "singularName": "vinculacion-empresarial",
+        "pluralName": "vinculaciones-empresariales",
+        "displayName": "Vinculación Empresarial",
+        "description": "Proyectos de vinculación con empresas y aliados"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "attributes": {
+        "empresa": {
+            "type": "string",
+            "required": true
+        },
+        "proyecto": {
+            "type": "string"
+        },
+        "descripcion": {
+            "type": "text"
+        },
+        "anio": {
+            "type": "string"
+        },
+        "estado": {
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "kind": "collectionType",
+    "collectionName": "convocatorias",
+    "info": {
+        "singularName": "convocatoria",
+        "pluralName": "convocatorias",
+        "displayName": "Convocatoria",
+        "description": ""
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "titulo": {
+            "type": "string",
+            "required": true
+        },
+        "descripcion": {
+            "type": "blocks"
+        },
+        "fecha_publicacion": {
+            "type": "date"
+        },
+        "fecha_cierre": {
+            "type": "date"
+        },
+        "tipo": {
+            "type": "string"
+        },
+        "categoria": {
+            "type": "string"
+        },
+        "estado": {
+            "type": "enumeration",
+            "enum": [
+                "Activa",
+                "Cerrado"
+            ],
+            "default": "Activa"
+        },
+        "presupuesto": {
+            "type": "string"
+        },
+        "enlace_postulacion": {
+            "type": "string"
+        },
+        "bases": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "files",
+                "images"
+            ]
+        }
+    }
+}

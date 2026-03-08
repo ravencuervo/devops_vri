@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "checkJs": false,
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    ".strapi",
+    "dist",
+    ".cache"
+  ]
+}

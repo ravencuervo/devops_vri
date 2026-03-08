@@ -1,0 +1,32 @@
+{
+    "kind": "collectionType",
+    "collectionName": "transferencias_tecnologicas",
+    "info": {
+        "singularName": "transferencia-tecnologica",
+        "pluralName": "transferencias-tecnologicas",
+        "displayName": "Transferencia Tecnológica",
+        "description": "Proyectos de transferencia tecnológica"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "attributes": {
+        "titulo": {
+            "type": "string",
+            "required": true
+        },
+        "descripcion": {
+            "type": "text"
+        },
+        "impacto": {
+            "type": "text"
+        },
+        "imagen": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "images"
+            ]
+        }
+    }
+}
