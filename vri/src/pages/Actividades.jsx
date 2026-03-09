@@ -359,30 +359,32 @@ const Actividades = () => {
     useScrollReveal(loadingEventos || loadingPosters);
 
     useEffect(() => {
-        if (!loadingEventos && cronograma && cronograma.length > 0) {
-            const handleHash = () => {
-                const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
-                const section = hashParams.get('section');
-                if (section === 'posters' || section === 'poster') {
-                    setActiveTab('poster');
-                } else if (section === 'cronograma') {
+        const handleHash = () => {
+            const fullHash = window.location.hash;
+            const hashParams = new URLSearchParams(fullHash.split('?')[1] || '');
+            const section = hashParams.get('section');
+
+            if (section === 'posters' || section === 'poster') {
+                setActiveTab('poster');
+            } else if (section === 'cronograma') {
+                setActiveTab('cronograma');
+            }
+
+            // Manejar apertura automática de evento si viene con ID
+            const targetId = hashParams.get('id');
+            if (targetId && cronograma && cronograma.length > 0) {
+                const foundEvent = cronograma.find(e => String(e.id) === targetId);
+                if (foundEvent) {
+                    setSelectedEvent(foundEvent);
                     setActiveTab('cronograma');
                 }
+            }
+        };
 
-                const targetId = hashParams.get('id');
-                if (targetId) {
-                    const foundEvent = cronograma.find(e => String(e.id) === targetId);
-                    if (foundEvent) {
-                        setSelectedEvent(foundEvent);
-                        setActiveTab('cronograma');
-                    }
-                }
-            };
-            handleHash();
-            window.addEventListener('hashchange', handleHash);
-            return () => window.removeEventListener('hashchange', handleHash);
-        }
-    }, [loadingEventos, cronograma]);
+        handleHash();
+        window.addEventListener('hashchange', handleHash);
+        return () => window.removeEventListener('hashchange', handleHash);
+    }, [cronograma]); // Re-ejecutar si llega el cronograma para poder abrir el modal por ID si existe
 
     useEffect(() => {
         window.scrollTo(0, 0);

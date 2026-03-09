@@ -1,11 +1,49 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useConfiguracion } from '../../hooks/useConfiguracion';
 
 const Hero = ({ autoPlayVideo = false }) => {
+    const { videoUrl, loading: configLoading } = useConfiguracion();
     // Inicialmente false para mostrar el botón de play siempre
     const [showVideo, setShowVideo] = useState(false);
     const [currentWord, setCurrentWord] = useState(0);
     const [isTyping, setIsTyping] = useState(true);
     const [shootingStars, setShootingStars] = useState([]);
+
+    // Determinar si el video es de YouTube o archivo directo
+    const { isYouTube, youtubeId, finalVideoSrc, finalThumbnail } = useMemo(() => {
+        if (!videoUrl) {
+            return {
+                isYouTube: false,
+                youtubeId: null,
+                finalVideoSrc: null,
+                finalThumbnail: null
+            };
+        }
+
+        const isYT = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+        if (isYT) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = videoUrl.match(regExp);
+            // Si el match falla pero detectamos que es YT, intentamos usar el ID de la URL o null
+            const id = (match && match[2].length === 11) ? match[2] : null;
+
+            if (!id) return { isYouTube: false, youtubeId: null, finalVideoSrc: null, finalThumbnail: null };
+
+            return {
+                isYouTube: true,
+                youtubeId: id,
+                finalVideoSrc: `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`,
+                finalThumbnail: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`
+            };
+        }
+
+        return {
+            isYouTube: false,
+            youtubeId: null,
+            finalVideoSrc: videoUrl,
+            finalThumbnail: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200'
+        };
+    }, [videoUrl]);
 
     const dynamicPhrases = [
         { word: 'Innovación', color: 'text-[#AEDD2B]' },
@@ -279,44 +317,56 @@ const Hero = ({ autoPlayVideo = false }) => {
                     </div>
 
                     <div className="space-y-10 animate-modern-reveal" style={{ animationDelay: '0.5s' }}>
-                        {!showVideo ? (
-                            <div
-                                onClick={() => setShowVideo(true)}
-                                className="relative aspect-video rounded-3xl overflow-hidden cursor-pointer group border-2 border-white/10 hover:border-[#AEDD2B]/50 transition-all duration-500 shadow-2xl"
-                            >
-                                <img
-                                    src="https://img.youtube.com/vi/eUcmIoieemc/maxresdefault.jpg"
-                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    alt="Video Thumbnail"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#030D4F] via-[#030D4F]/40 to-transparent"></div>
-                                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <div className="relative">
-                                        <div className="absolute inset-0 bg-[#AEDD2B]/30 rounded-full animate-ping"></div>
-                                        <div className="relative w-20 h-20 bg-[#AEDD2B] rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                                            <i className="fas fa-play text-[#030D4F] text-2xl ml-1"></i>
-                                        </div>
-                                    </div>
-                                    <span className="mt-4 text-white font-bold text-sm uppercase tracking-widest">Reproducir Video Institucional</span>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="relative aspect-video rounded-3xl overflow-hidden border-2 border-[#AEDD2B]/30 shadow-2xl">
-                                <iframe
-                                    className="absolute inset-0 w-full h-full"
-                                    src="https://www.youtube.com/embed/eUcmIoieemc?autoplay=1&mute=1"
-                                    title="Video Institucional VRI"
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                ></iframe>
-                                <button
-                                    onClick={(e) => { e.stopPropagation(); setShowVideo(false); }}
-                                    className="absolute top-4 right-4 z-20 w-10 h-10 bg-black/60 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                        {finalVideoSrc && (
+                            !showVideo ? (
+                                <div
+                                    onClick={() => setShowVideo(true)}
+                                    className="relative aspect-video rounded-3xl overflow-hidden cursor-pointer group border-2 border-white/10 hover:border-[#AEDD2B]/50 transition-all duration-500 shadow-2xl"
                                 >
-                                    <i className="fas fa-times"></i>
-                                </button>
-                            </div>
+                                    <img
+                                        src={finalThumbnail}
+                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        alt="Video Thumbnail"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#030D4F] via-[#030D4F]/40 to-transparent"></div>
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-[#AEDD2B]/30 rounded-full animate-ping"></div>
+                                            <div className="relative w-20 h-20 bg-[#AEDD2B] rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                                                <i className="fas fa-play text-[#030D4F] text-2xl ml-1"></i>
+                                            </div>
+                                        </div>
+                                        <span className="mt-4 text-white font-bold text-sm uppercase tracking-widest">Reproducir Video Institucional</span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="relative aspect-video rounded-3xl overflow-hidden border-2 border-[#AEDD2B]/30 shadow-2xl bg-black">
+                                    {isYouTube ? (
+                                        <iframe
+                                            className="absolute inset-0 w-full h-full"
+                                            src={finalVideoSrc}
+                                            title="Video Institucional VRI"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        ></iframe>
+                                    ) : (
+                                        <video
+                                            className="absolute inset-0 w-full h-full object-cover"
+                                            src={finalVideoSrc}
+                                            autoPlay
+                                            controls
+                                            playsInline
+                                        />
+                                    )}
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); setShowVideo(false); }}
+                                        className="absolute top-4 right-4 z-20 w-10 h-10 bg-black/60 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            )
                         )}
 
                         <div className="grid grid-cols-5 gap-3">

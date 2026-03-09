@@ -463,6 +463,36 @@ export interface ApiAvisoAviso extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiConfiguracionInicioConfiguracionInicio
+  extends Struct.SingleTypeSchema {
+  collectionName: 'configuracion_inicios';
+  info: {
+    displayName: 'Configuracion Inicio';
+    pluralName: 'configuracion-inicios';
+    singularName: 'configuracion-inicio';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::configuracion-inicio.configuracion-inicio'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    video_archivo: Schema.Attribute.Media<'files' | 'videos'>;
+    video_url: Schema.Attribute.String;
+  };
+}
+
 export interface ApiConvocatoriaConvocatoria
   extends Struct.CollectionTypeSchema {
   collectionName: 'convocatorias';
@@ -1638,6 +1668,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::aviso.aviso': ApiAvisoAviso;
+      'api::configuracion-inicio.configuracion-inicio': ApiConfiguracionInicioConfiguracionInicio;
       'api::convocatoria.convocatoria': ApiConvocatoriaConvocatoria;
       'api::docente-investigador.docente-investigador': ApiDocenteInvestigadorDocenteInvestigador;
       'api::docente-renacyt.docente-renacyt': ApiDocenteRenacytDocenteRenacyt;
