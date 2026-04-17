@@ -1,0 +1,342 @@
+.institutos-page {
+  background: #fdfdfd;
+}
+
+/* --- HERO --- */
+.institutos-hero {
+  background-image:
+    linear-gradient(to right, rgba(0, 40, 20, 0.95), rgba(0, 70, 40, 0.8)),
+    url('/assets/portadas-hero/portada_institutos.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: clamp(80px, 15vh, 160px) 0 clamp(60px, 10vh, 120px);
+  text-align: center;
+  color: white;
+}
+
+.institutos-hero .section-badge {
+  color: #c9f2c7;
+  border-color: rgba(201, 242, 199, 0.3);
+}
+
+/* --- CONTENT --- */
+.institutos-content .container {
+  max-width: 1400px;
+}
+
+.institutos-content {
+  padding: 80px 0;
+}
+
+.year-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.year-btn {
+  padding: 10px 24px;
+  border-radius: 30px;
+  border: 1px solid #e0e6e0;
+  background: white;
+  color: #4a5a51;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.year-btn.active {
+  background: #006b3f;
+  color: white;
+  border-color: #006b3f;
+  box-shadow: 0 10px 20px rgba(0, 107, 63, 0.15);
+}
+
+.year-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- LAYOUT GRID --- */
+.content-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* --- SIDEBAR TABS --- */
+.tabs-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 100px;
+}
+
+.tab-link {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: white;
+  border: 1px solid #eef1ee;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  text-align: left;
+  width: 100%;
+}
+
+.tab-link:hover {
+  border-color: #006b3f;
+  transform: translateX(10px);
+  box-shadow: 0 10px 30px rgba(0, 60, 30, 0.08);
+}
+
+.tab-link.active {
+  background: #004d30;
+  border-color: #004d30;
+  color: white;
+  box-shadow: 0 20px 40px rgba(0, 60, 30, 0.15);
+}
+
+/* --- MONOCHROMATIC ICONS --- */
+.tab-icon {
+  width: 56px;
+  height: 56px;
+  background: #f0f7f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #006b3f;
+  transition: var(--transition);
+}
+
+.tab-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.tab-link:hover .tab-icon {
+  background: #006b3f;
+  color: white;
+}
+
+.tab-link.active .tab-icon {
+  background: rgba(255, 255, 255, 0.1);
+  color: #c9f2c7;
+}
+
+.tab-text strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.tab-text span {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* --- RESULTS SECTION --- */
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #f0f7f0;
+  padding-bottom: 20px;
+}
+
+.results-header h3 {
+  font-size: 1.8rem;
+  color: #004d30;
+  font-weight: 900;
+}
+
+.count-badge {
+  background: #e6f4ea;
+  color: #006b3f;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  margin-left: 10px;
+}
+
+/* --- CARD GRID --- */
+.institutos-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 30px;
+}
+
+/* --- CARDS GENERAL --- */
+.instituto-card-item {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  border: 1px solid #eef1ee;
+  transition: var(--transition-slow);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 48, 16, 0.03);
+}
+
+.instituto-card-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 60, 30, 0.12);
+  border-color: #006b3f;
+}
+
+.i-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.i-area,
+.i-fac {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #006b3f;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: #f0f7f0;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.i-score-badge {
+  background: #004d30;
+  color: #c9f2c7;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 0.85rem;
+  font-family: var(--font-mono, monospace);
+}
+
+.i-card-title,
+.i-card-title-lg {
+  font-size: 1.4rem;
+  color: #003010;
+  line-height: 1.3;
+  margin-bottom: 24px;
+  font-weight: 900;
+}
+
+.i-card-title-lg {
+  font-size: 1.3rem;
+  min-height: 3.5em;
+}
+
+.i-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 24px;
+  border-top: 1px solid #f0f7f0;
+  margin-bottom: 30px;
+}
+
+.i-info-row-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.i-label {
+  font-size: 0.8rem;
+  color: #6a7c73;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.i-value-project {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #1a241e;
+  font-weight: 600;
+  padding: 16px;
+  background: #f9fbf9;
+  border-left: 4px solid #006b3f;
+  border-radius: var(--radius-sm);
+}
+
+.i-value-winner {
+  color: #006b3f;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.i-value-resp-lg {
+  font-size: 1.1rem;
+  color: #003010;
+  font-weight: 700;
+  padding: 14px;
+  background: #f0f7f3;
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+/* --- FOOTER & BUTTON --- */
+.i-card-footer {
+  margin-top: auto;
+  border-top: 1px solid #f0f7f0;
+  padding-top: 24px;
+}
+
+.i-btn-ficha {
+  width: 100%;
+  padding: 14px;
+  background: #f0f7f0;
+  border: 1px solid #e0e6e0;
+  border-radius: var(--radius-md);
+  color: #006b3f;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.i-btn-ficha svg {
+  width: 20px;
+  height: 20px;
+}
+
+.i-btn-ficha:hover {
+  background: #006b3f;
+  color: white;
+  border-color: #006b3f;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 107, 63, 0.15);
+}
+
+@media (max-width: 600px) {
+  .institutos-grid-cards {
+    grid-template-columns: 1fr;
+  }
+}

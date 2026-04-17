@@ -1,0 +1,667 @@
+/* =============================================
+   NAVBAR — VRI Portal
+   Sistema de navegación completamente responsivo.
+   Usa flex-wrap y clamp() en todo — jamás overflow.
+   ============================================= */
+
+/* ─── HEADER FIJO ─────────────────────────────── */
+.header-complex {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3000;
+  transition: var(--transition-slow);
+}
+
+/* ─── FILA DE BRANDING ────────────────────────── */
+.branding-row-bg {
+  background-image:
+    linear-gradient(105deg, rgba(1, 15, 35, 0.97) 0%, rgba(0, 30, 60, 0.93) 55%, rgba(0, 45, 80, 0.82) 100%),
+    url('/assets/portada.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  border-bottom: none;
+  position: relative;
+  overflow: hidden;
+  max-height: 200px; /* Altura máxima para permitir la transición */
+  transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity    0.4s ease,
+              padding    0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Línea de acento teal gradiente */
+.branding-row-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    #00b4d8 20%,
+    #90e0ef 50%,
+    #00b4d8 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: accentSlide 4s ease-in-out infinite;
+}
+
+@keyframes accentSlide {
+  0%   { background-position: 100% 0; }
+  50%  { background-position: 0% 0; }
+  100% { background-position: 100% 0; }
+}
+
+/* Ruido sutil sobre el fondo (textura premium) */
+.branding-row-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 120% at 90% 50%, rgba(0, 100, 180, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.branding-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(12px, 2vw, 26px) clamp(16px, 4vw, 72px);
+  gap: clamp(14px, 2.5vw, 28px);
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+  transition: padding 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s ease;
+}
+
+.vri-brand-box {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 24px);
+  flex-wrap: nowrap;
+  text-decoration: none;
+}
+
+/* Contenedor del logo con resplandor */
+.vri-logo-wrap {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.vri-logo-main {
+  height: clamp(38px, 4.5vw, 68px);
+  width: auto;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              filter 0.3s ease;
+  filter: drop-shadow(0 2px 12px rgba(0, 180, 216, 0.2));
+  position: relative;
+  z-index: 2;
+}
+
+.vri-brand-box:hover .vri-logo-main {
+  transform: scale(1.06) rotate(-1deg);
+  filter: drop-shadow(0 4px 18px rgba(0, 180, 216, 0.5));
+}
+
+/* Divisor vertical entre logo y texto */
+.vri-brand-divider {
+  width: 1.5px;
+  height: clamp(28px, 4vw, 52px);
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.3), transparent);
+  flex-shrink: 0;
+}
+
+.vri-names {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2px, 0.4vw, 5px);
+}
+
+.vri-title-main {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.8vw, 1.5rem);
+  color: #ffffff;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: clamp(0.5px, 0.15vw, 1.5px);
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+  transition: letter-spacing 0.3s ease;
+}
+
+.vri-brand-box:hover .vri-title-main {
+  letter-spacing: clamp(1px, 0.25vw, 2.5px);
+}
+
+.vri-subtitle-main {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: clamp(0.48rem, 0.9vw, 0.7rem);
+  letter-spacing: clamp(2px, 0.5vw, 5px);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Punto decorativo pulsante antes del subtítulo */
+.vri-subtitle-main::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #00b4d8;
+  flex-shrink: 0;
+  animation: subtitleDot 2.5s ease-in-out infinite;
+}
+
+@keyframes subtitleDot {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.4); box-shadow: 0 0 6px #00b4d8; }
+}
+
+/* ─── BARRA DE NAVEGACIÓN ─────────────────────── */
+.navigation-row-bar {
+  background: linear-gradient(155deg, #020d1a 0%, #001e3c 55%, #003058 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigation-flex {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.nav-link-unit {
+  flex: 1 1 0;
+  min-width: 120px;
+  font-size: clamp(0.5rem, 0.82vw, 0.62rem);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  padding: clamp(12px, 1.4vw, 18px) clamp(8px, 1vw, 16px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+  transition: var(--transition);
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-link-unit:first-child {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hover con transición suave */
+.nav-link-unit::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #00b4d8; /* Color de acento cyan */
+  transform: scaleX(0);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.nav-link-unit:hover::after,
+.nav-link-unit.current::after {
+  transform: scaleX(1);
+}
+
+.nav-link-unit:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.nav-link-unit.current {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-weight: 800;
+}
+
+/* --- DROPDOWNS --- */
+.nav-dropdown-wrapper {
+  flex: 1 1 0;
+  min-width: 120px;
+  position: relative;
+  display: flex;
+}
+
+.nav-dropdown-wrapper .nav-link-unit {
+  width: 100%;
+  border-left: none;
+}
+
+.dropdown-chevron {
+  width: 14px;
+  height: 14px;
+  margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+
+.nav-dropdown-wrapper:hover .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 320px;
+  background: white;
+  list-style: none;
+  padding: 10px 0;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--outline-variant);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: var(--transition);
+  z-index: 5000;
+}
+
+.nav-dropdown-wrapper:hover .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown-menu li a {
+  display: block;
+  padding: 12px 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transition-fast);
+  line-height: 1.4;
+}
+
+.nav-dropdown-menu li a:hover {
+  background: var(--surface-container-low);
+  color: var(--primary);
+  padding-left: 26px;
+}
+
+.nav-dropdown-menu li a.active {
+  color: var(--primary);
+  background: var(--surface-container-low);
+}
+
+/* --- NESTED DROPDOWNS --- */
+.has-nested {
+  position: relative;
+}
+
+.has-nested > a,
+.has-nested > div {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nested-trigger {
+  padding: 12px 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transition-fast);
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.has-nested:hover .nested-trigger {
+  background: var(--surface-container-low);
+  color: var(--primary);
+  padding-left: 26px;
+}
+
+.nested-chevron {
+  width: 12px;
+  height: 12px;
+  opacity: 0.6;
+}
+
+.nav-nested-menu {
+  position: absolute;
+  top: 0;
+  left: 100%; /* Aparece a la derecha */
+  width: 240px;
+  background: white;
+  list-style: none;
+  padding: 10px 0;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+  transition: var(--transition);
+  z-index: 5100;
+}
+
+.has-nested:hover .nav-nested-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.nav-nested-menu li a {
+  padding: 10px 20px;
+}
+
+/* ─── BARRA LATERAL RÁPIDA (SIDEDOCK) ─────────── */
+.quick-access-sidebar {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: var(--radius-full) 0 0 var(--radius-full);
+  box-shadow: -4px 4px 18px rgba(0, 51, 88, 0.14);
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  transition: var(--transition-bounce);
+  color: var(--primary);
+  border: 1px solid var(--outline-variant);
+  border-right: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.item-icon {
+  width: 21px;
+  height: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.item-text {
+  font-size: 0.68rem;
+  font-weight: 800;
+  margin-right: 14px;
+  opacity: 0;
+  white-space: nowrap;
+  transform: translateX(16px);
+  transition: var(--transition);
+  display: none;
+}
+
+.sidebar-item:hover {
+  width: 200px;
+  background: var(--primary);
+  color: white;
+  justify-content: flex-end;
+  padding-right: 14px;
+  box-shadow: -8px 8px 30px rgba(0, 51, 88, 0.25);
+}
+
+.sidebar-item:hover .item-text {
+  display: block;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ─── ESTADO COLAPSADO (al hacer scroll) ──────── */
+.is-shrunk .branding-row-bg {
+  max-height: 0;
+  min-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 0.5s;
+}
+
+.is-shrunk .branding-flex {
+  padding-top: 0;
+  padding-bottom: 0;
+  transform: translateY(-20px) scale(0.95);
+  opacity: 0;
+}
+
+.is-shrunk .branding-row-bg::after {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* --- MOBILE MENU TOGGLE --- */
+.mobile-menu-toggle {
+  display: none; /* Oculto por defecto en escritorio */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 32px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 6000;
+  margin: 15px auto;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 2px;
+  background: white;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.mobile-menu-toggle.is-active .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.mobile-menu-toggle.is-active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.is-active .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ─── TEMA INSTITUTO DE INVESTIGACIÓN (Green) ─── */
+.header-complex.is-idi-theme .branding-row-bg {
+  background-image: 
+    linear-gradient(105deg, rgba(0, 50, 30, 0.97) 0%, rgba(0, 80, 50, 0.93) 55%, rgba(0, 110, 70, 0.82) 100%),
+    url('/assets/portada.jpg');
+}
+
+.header-complex.is-idi-theme .navigation-row-bar {
+  background: linear-gradient(90deg, #004d30 0%, #006b3f 100%);
+}
+
+.header-complex.is-idi-theme .vri-title-main {
+  color: #a8e6cf; /* Color verde claro para el título IDI */
+}
+
+.header-complex.is-idi-theme .nav-link-unit:hover,
+.header-complex.is-idi-theme .nav-link-unit.current {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  color: #c9f2c7;
+}
+
+.header-complex.is-idi-theme .nav-link-unit::after {
+  background: #c9f2c7;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVO
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .navigation-flex {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 1100px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .navigation-flex {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(155deg, #020d1a 0%, #001e3c 55%, #003058 100%);
+    flex-direction: column;
+    padding: 80px 20px 40px;
+    transform: translateX(-100%);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 5500;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .navigation-flex.is-open {
+    transform: translateX(0);
+  }
+
+  .nav-link-unit {
+    width: 100%;
+    min-width: unset;
+    flex: 0 0 auto;
+    font-size: 1.1rem;
+    padding: 20px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .nav-link-unit:first-child {
+    border-left: none;
+  }
+
+  .nav-dropdown-wrapper {
+    flex: 0 0 auto;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .nav-dropdown-menu {
+    position: static;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    margin-top: 0;
+    display: none;
+  }
+
+  .nav-dropdown-wrapper:hover .nav-dropdown-menu {
+    display: block;
+  }
+
+  .nav-dropdown-menu li a {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 15px 40px;
+    font-size: 0.9rem;
+  }
+
+  .has-nested:hover .nav-nested-menu {
+    position: static;
+    width: 100%;
+    display: block;
+    background: transparent;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: none;
+  }
+
+  .nav-nested-menu li a {
+    padding-left: 60px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+  .nav-link-unit {
+    min-width: 140px;
+    font-size: clamp(0.48rem, 1.3vw, 0.62rem);
+    padding: 12px 8px;
+  }
+}
+
+/* Móviles */
+@media (max-width: 600px) {
+  .vri-brand-box {
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  .vri-brand-divider {
+    display: none;
+  }
+  .vri-title-main {
+    font-size: clamp(0.72rem, 3.5vw, 1rem);
+  }
+  .vri-subtitle-main {
+    display: none;
+  }
+  .nav-link-unit {
+    min-width: 50%;
+    flex: 1 1 50%;
+    border-bottom: 1px solid var(--outline-variant);
+  }
+}
+
+@media (max-width: 400px) {
+  .nav-link-unit {
+    min-width: 100%;
+    flex: 1 1 100%;
+  }
+}

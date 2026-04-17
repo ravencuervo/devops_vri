@@ -1,0 +1,107 @@
+# ============================================================
+#  VRI Portal — Orquestación completa
+#
+#  Levanta todos los servicios juntos:
+#    docker compose up --build
+#
+#  O por servicio individual (desde su carpeta):
+#    cd backend  && docker compose up --build
+#    cd frontend && docker compose up --build
+# ============================================================
+
+services:
+
+  # ── Base de datos MySQL ──────────────────────────────────
+  strapi_db:
+    container_name: strapi_db
+    image: mysql:8.0
+    platform: linux/amd64
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MYSQL_DATABASE: ${DATABASE_NAME:-strapi}
+      MYSQL_USER: ${DATABASE_USERNAME:-strapi}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD:-strapi}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD:-strapi}
+    volumes:
+      - strapi_db_data:/var/lib/mysql
+    ports:
+      - '${DATABASE_PORT:-3306}:3306'
+    networks:
+      - vri_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ── Strapi CMS (Backend) ─────────────────────────────────
+  strapi:
+    container_name: strapi
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV:-development}
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_CLIENT: ${DATABASE_CLIENT:-mysql}
+      DATABASE_HOST: strapi_db
+      DATABASE_PORT: ${DATABASE_PORT:-3306}
+      DATABASE_NAME: ${DATABASE_NAME:-strapi}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-strapi}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-strapi}
+      DATABASE_SSL: ${DATABASE_SSL:-false}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      APP_KEYS: ${APP_KEYS}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+    volumes:
+      - ./backend:/opt/app
+      - strapi_node_modules:/opt/app/node_modules
+      - strapi_uploads:/opt/app/public/uploads
+    ports:
+      - '1337:1337'
+    depends_on:
+      strapi_db:
+        condition: service_healthy
+    networks:
+      - vri_network
+
+  # ── Frontend React + Vite ────────────────────────────────
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV:-development}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:1337}
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+    ports:
+      - '5173:5173'
+    depends_on:
+      - strapi
+    networks:
+      - vri_network
+
+# ── Red compartida ───────────────────────────────────────
+networks:
+  vri_network:
+    driver: bridge
+
+# ── Volúmenes persistentes ───────────────────────────────
+volumes:
+  strapi_db_data:
+  strapi_node_modules:
+  strapi_uploads:
+  frontend_node_modules:
